@@ -49,26 +49,57 @@ function createDraggableNavbar() {
     navbar.appendChild(footer);
 
     navbar.onmousedown = function(event) {
+        // 마우스 오른쪽 클릭을 무시
+        if (event.button === 2) return;
+    
         event.preventDefault();
         let shiftX = event.clientX - navbar.getBoundingClientRect().left;
         let shiftY = event.clientY - navbar.getBoundingClientRect().top;
         
         function moveAt(pageX, pageY) {
-            navbar.style.left = pageX - shiftX + 'px';
-            navbar.style.top = pageY - shiftY + 'px';
+            let newX = pageX - shiftX;
+            let newY = pageY - shiftY;
+            let windowWidth = document.documentElement.clientWidth;
+            let windowHeight = document.documentElement.clientHeight;
+            if (newX < 0) newX = 0;
+            if (newY < 0) newY = 0;
+            if (newX + navbar.offsetWidth > windowWidth) newX = windowWidth - navbar.offsetWidth;
+            if (newY + navbar.offsetHeight > windowHeight) newY = windowHeight - navbar.offsetHeight;
+            
+            navbar.style.left = newX + 'px';
+            navbar.style.top = newY + 'px';
         }
-
+    
         function onMouseMove(event) {
             moveAt(event.pageX, event.pageY);
         }
-
+    
         document.addEventListener('mousemove', onMouseMove);
-
+    
+        // 마우스를 놓았을 때 이벤트 해제
         navbar.onmouseup = function() {
             document.removeEventListener('mousemove', onMouseMove);
             navbar.onmouseup = null;
+            navbar.onmouseleave = null;
+        };
+    
+        // 네비게이션 바 영역 밖으로 마우스가 벗어났을 때 이벤트 해제
+        navbar.onmouseleave = function() {
+            document.removeEventListener('mousemove', onMouseMove);
+            navbar.onmouseup = null;
+            navbar.onmouseleave = null;
+        };
+    
+        // 우클릭 메뉴가 열렸을 때 이벤트 해제
+        navbar.oncontextmenu = function() {
+            document.removeEventListener('mousemove', onMouseMove);
+            navbar.onmouseup = null;
+            navbar.onmouseleave = null;
+            navbar.oncontextmenu = null;
         };
     };
+    
+    
     
     document.body.appendChild(navbar);
 
