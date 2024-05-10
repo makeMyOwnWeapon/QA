@@ -1,9 +1,12 @@
 import { toggleNavbarVisibility } from '../navbar/navbar.js';
+import { loadDefaultElementsForWorkbook } from '../workbook/workbook.js';
 
 const handler = {
     set(target, key, value) {
       target[key] = value;
-
+      if (value) {
+        loadDefaultElementsForWorkbook();
+      }
       return true;
     }  
 };

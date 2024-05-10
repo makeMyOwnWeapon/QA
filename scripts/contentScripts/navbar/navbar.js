@@ -4,14 +4,12 @@ import { createNavbarFooter } from './footer.js';
 export function toggleNavbarVisibility() {
     const navbar = document.getElementById('learningAssistantNavbar');
     if (navbar) {
-        // 네비게이션바가 이미 표시되어 있는 경우
         if (navbar.style.zIndex === '1000') {
-            navbar.style.zIndex = '-1';  // 네비게이션바를 숨김
+            navbar.style.zIndex = '-1';
         } else {
-            navbar.style.zIndex = '1000'; // 네비게이션바를 다시 표시
+            navbar.style.zIndex = '1000';
         }
     } else {
-        // 네비게이션바가 없는 경우 새로 생성
         createDraggableNavbar();
     }
 }
@@ -40,16 +38,15 @@ function createDraggableNavbar() {
 
     const contentDiv = document.createElement('div');
     contentDiv.id = 'navbarContent';
-    contentDiv.style.padding = '10px 20px 20px 20px';  // 위쪽 여백 조정
-    contentDiv.style.height = '100%';  // 위쪽 여백 조정
+    contentDiv.style.padding = '10px 20px 20px 20px';
+    contentDiv.style.height = '100%';
     navbar.appendChild(contentDiv);
 
     const footer = createNavbarFooter();
-    footer.style.position = 'static';  // 푸터를 네비게이션바 내부에서 자연스럽게 흐르도록 설정
+    footer.style.position = 'static';
     navbar.appendChild(footer);
 
     navbar.onmousedown = function(event) {
-        // 마우스 오른쪽 클릭을 무시
         if (event.button === 2) return;
     
         event.preventDefault();
@@ -83,14 +80,12 @@ function createDraggableNavbar() {
             navbar.onmouseleave = null;
         };
     
-        // 네비게이션 바 영역 밖으로 마우스가 벗어났을 때 이벤트 해제
         navbar.onmouseleave = function() {
             document.removeEventListener('mousemove', onMouseMove);
             navbar.onmouseup = null;
             navbar.onmouseleave = null;
         };
     
-        // 우클릭 메뉴가 열렸을 때 이벤트 해제
         navbar.oncontextmenu = function() {
             document.removeEventListener('mousemove', onMouseMove);
             navbar.onmouseup = null;
