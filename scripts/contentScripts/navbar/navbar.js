@@ -1,7 +1,5 @@
 import { createNavbarHeader } from './header.js';
 import { createNavbarFooter } from './footer.js';
-import { displaySummaryContent } from '../summary/summary.js';
-import { displayWorkbookContent } from '../workbook/workbook.js';
 
 export function toggleNavbarVisibility() {
     const navbar = document.getElementById('learningAssistantNavbar');
@@ -35,6 +33,7 @@ function createDraggableNavbar() {
     navbar.style.flexDirection = 'column';
     navbar.style.borderRadius = '8px';
     navbar.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+    navbar.style.zIndex = '1000';
 
     const header = createNavbarHeader();
     navbar.appendChild(header);
@@ -53,7 +52,7 @@ function createDraggableNavbar() {
         event.preventDefault();
         let shiftX = event.clientX - navbar.getBoundingClientRect().left;
         let shiftY = event.clientY - navbar.getBoundingClientRect().top;
-
+        
         function moveAt(pageX, pageY) {
             navbar.style.left = pageX - shiftX + 'px';
             navbar.style.top = pageY - shiftY + 'px';
@@ -73,18 +72,5 @@ function createDraggableNavbar() {
     
     document.body.appendChild(navbar);
 
-    setupButtonHandlers();
 }
 
-
-function setupButtonHandlers() {
-    const summaryButton = document.getElementById('summaryButton');
-    const workbookButton = document.getElementById('workbookButton');
-
-    if (summaryButton && workbookButton) {
-        summaryButton.onclick = displaySummaryContent;
-        workbookButton.onclick = displayWorkbookContent;
-    } else {
-        console.error('One or more elements are missing');
-    }
-}

@@ -1,4 +1,3 @@
-import '../../scss/main.scss';
 import { addLearningAssistantIcon, removeLearningAssistantIcon } from './icon/icon.js';
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
